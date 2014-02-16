@@ -11,6 +11,11 @@ gem 'coffee-script'
 gem 'uglifier'
 gem 'sass'
 gem 'slim'
+gem 'rake'
+
+# Heroku
+gem "rack"
+gem "foreman"
 
 group :development, :test do
   gem 'byebug'

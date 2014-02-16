@@ -10,6 +10,8 @@ unless Sinatra::Base.production?
   require 'byebug'
 end
 
+set :root, File.dirname(__FILE__)
+
 ####
 #  Asset precompilation with assetpack:
 #
@@ -27,11 +29,11 @@ assets do
     #'/js/app.js'
   ]
 
-  serve '/css', :from => 'assets/stylesheets'
-  css :application, [
-    #'/css/normalize.css',
-    #'/css/app.css'
-  ]
+  #serve '/css', :from => 'assets/stylesheets'
+  #css :application, [
+    ##'/css/normalize.css',
+    ##'/css/app.css'
+  #]
 
   serve 'images', :from => File.join('assets', 'images')
 
