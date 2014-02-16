@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title Flappy Bird
+    meta name="viewport" content="width=device-width, user-scalable=no"
+    meta name="apple-mobile-web-app-capable" content="yes"
+    link rel="apple-touch-icon" href="assets/icon.png"
+    link rel="apple-touch-icon" sizes="120x120" href="assets/icon-120.png"
+    css:
+      body {
+        background: #abc;
+        margin: 0;
+        padding: 0;
+      }
+      #screen {
+        margin: 0 auto;
+        max-height:500px;
+        max-width:500px;
+        position: relative;
+        overflow: hidden;
+      }
+  body
+    == "<div id='screen' #{data}>"
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    == js :game

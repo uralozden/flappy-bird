@@ -1,5 +1,10 @@
-flappy-bird
+Chipi-birds
 ===========
+
+A phaser.js fool-around :)
+
+
+Originally a fork from https://github.com/uralozden/flappy-bird, which had this attributions:
 
 Flappy Bird (Skin) Browser Game Phaser framework
 
