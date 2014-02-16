@@ -1,10 +1,10 @@
 var DEBUG = false;
 //var SPEED = 690;
-var SPEED = 500;
+var SPEED = 400;
 //var GRAVITY = 40;
-var GRAVITY = 35;
+var GRAVITY = 30;
 //var FLAP = 620;
-var FLAP = 600;
+var FLAP = 480;
 var SPAWN_RATE = 1 / 1.2;
 var OPENING = 134;
 
@@ -98,6 +98,7 @@ function main() {
     var screenHeight = parent.clientHeight > window.innerHeight ? window.innerHeight : parent.clientHeight;
     game.world.width = screenWidth;
     game.world.height = screenHeight;
+    game.stage.scale.startFullScreen();
     // Draw bg
     bg = game.add.graphics(0, 0);
     bg.beginFill(0xDDEEFF, 1);
