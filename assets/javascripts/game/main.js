@@ -7,32 +7,32 @@ var OPENING = 134;
 
 
 WebFontConfig = {
-    google: { families: [ 'Press+Start+2P::latin' ] },
-    active: main
+  google: { families: [ 'Press+Start+2P::latin' ] },
+  active: main
 };
+
 (function() {
-    var wf = document.createElement('script');
-    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
-      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-    wf.type = 'text/javascript';
-    wf.async = 'true';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(wf, s);
-})(); 
+  var wf = document.createElement('script');
+  wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+    '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+  wf.type = 'text/javascript';
+  wf.async = 'true';
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(wf, s);
+})();
 
 
 function main() {
-
-var state = {
+  var state = {
     preload: preload,
     create: create,
     update: update,
     render: render
-};
+  };
 
-var parent = document.querySelector('#screen');
+  var parent = document.querySelector('#screen');
 
-var game = new Phaser.Game(
+  var game = new Phaser.Game(
     0,
     0,
     Phaser.CANVAS,
@@ -40,51 +40,56 @@ var game = new Phaser.Game(
     state,
     false,
     false
-);
+  );
 
-function preload() {
+  function get_asset_path(dom_id, asset) {
+    return $(dom_id).data(asset);
+  }
+
+  function preload() {
+    var asset_data_hook = "#screen";
     var assets = {
-        spritesheet: {
-            birdie: ['assets/birdie.png', 24, 24],
-            clouds: ['assets/clouds.png', 128, 64]
-        },
-        image: {
-            finger: ['assets/finger.png'],
-            fence: ['assets/fence.png']
-        },
-        audio: {
-            flap: ['assets/flap.wav'],
-            score: ['assets/score.wav'],
-            hurt: ['assets/hurt.wav']
-        }
+      spritesheet: {
+        birdie: [get_asset_path(asset_data_hook, 'birdie.png'), 24, 24],
+        clouds: [get_asset_path(asset_data_hook, 'clouds.png'), 128, 64]
+      },
+      image: {
+        finger: [get_asset_path(asset_data_hook, 'finger.png')],
+        fence: [get_asset_path(asset_data_hook, 'fence.png')]
+      },
+      audio: {
+        flap: [get_asset_path(asset_data_hook, 'flap.wav')],
+        score: [get_asset_path(asset_data_hook, 'score.wav')],
+        hurt: [get_asset_path(asset_data_hook, 'hurt.wav')]
+      }
     };
     Object.keys(assets).forEach(function(type) {
-        Object.keys(assets[type]).forEach(function(id) {
-            game.load[type].apply(game.load, [id].concat(assets[type][id]));
-        });
+      Object.keys(assets[type]).forEach(function(id) {
+        game.load[type].apply(game.load, [id].concat(assets[type][id]));
+      });
     });
-}
+  }
 
-var gameStarted,
-    gameOver,
-    score,
-    bg,
-    credits,
-    clouds,
-    fingers,
-    invs,
-    birdie,
-    fence,
-    scoreText,
-    instText,
-    gameOverText,
-    flapSnd,
-    scoreSnd,
-    hurtSnd,
-    fingersTimer,
-    cloudsTimer;
+  var gameStarted,
+  gameOver,
+  score,
+  bg,
+  credits,
+  clouds,
+  fingers,
+  invs,
+  birdie,
+  fence,
+  scoreText,
+  instText,
+  gameOverText,
+  flapSnd,
+  scoreSnd,
+  hurtSnd,
+  fingersTimer,
+  cloudsTimer;
 
-function create() {
+  function create() {
     // Set world dimensions
     var screenWidth = parent.clientWidth > window.innerWidth ? window.innerWidth : parent.clientWidth;
     var screenHeight = parent.clientHeight > window.innerHeight ? window.innerHeight : parent.clientHeight;
@@ -97,14 +102,14 @@ function create() {
     bg.endFill();
     // Credits 'yo
     credits = game.add.text(
-        game.world.width / 2,
-        10,
-        '',
-        {
-            font: '8px "Press Start 2P"',
-            fill: '#fff',
-            align: 'center'
-        }
+      game.world.width / 2,
+      10,
+      '',
+      {
+        font: '8px "Press Start 2P"',
+        fill: '#fff',
+        align: 'center'
+      }
     );
     credits.anchor.x = 0.5;
     // Add clouds group
@@ -125,44 +130,44 @@ function create() {
     fence.tileScale.setTo(2, 2);
     // Add score text
     scoreText = game.add.text(
-        game.world.width / 2,
-        game.world.height / 4,
-        "",
-        {
-            font: '16px "Press Start 2P"',
-            fill: '#fff',
-            stroke: '#430',
-            strokeThickness: 4,
-            align: 'center'
-        }
+      game.world.width / 2,
+      game.world.height / 4,
+      "",
+      {
+        font: '16px "Press Start 2P"',
+        fill: '#fff',
+        stroke: '#430',
+        strokeThickness: 4,
+        align: 'center'
+      }
     );
     scoreText.anchor.setTo(0.5, 0.5);
     // Add instructions text
     instText = game.add.text(
-        game.world.width / 2,
-        game.world.height - game.world.height / 4,
-        "",
-        {
-            font: '8px "Press Start 2P"',
-            fill: '#fff',
-            stroke: '#430',
-            strokeThickness: 4,
-            align: 'center'
-        }
+      game.world.width / 2,
+      game.world.height - game.world.height / 4,
+      "",
+      {
+        font: '8px "Press Start 2P"',
+        fill: '#fff',
+        stroke: '#430',
+        strokeThickness: 4,
+        align: 'center'
+      }
     );
     instText.anchor.setTo(0.5, 0.5);
     // Add game over text
     gameOverText = game.add.text(
-        game.world.width / 2,
-        game.world.height / 2,
-        "",
-        {
-            font: '16px "Press Start 2P"',
-            fill: '#fff',
-            stroke: '#430',
-            strokeThickness: 4,
-            align: 'center'
-        }
+      game.world.width / 2,
+      game.world.height / 2,
+      "",
+      {
+        font: '16px "Press Start 2P"',
+        fill: '#fff',
+        stroke: '#430',
+        strokeThickness: 4,
+        align: 'center'
+      }
     );
     gameOverText.anchor.setTo(0.5, 0.5);
     gameOverText.scale.setTo(2, 2);
@@ -179,9 +184,9 @@ function create() {
     cloudsTimer.add(Math.random());
     // RESET!
     reset();
-}
+  }
 
-function reset() {
+  function reset() {
     gameStarted = false;
     gameOver = false;
     score = 0;
@@ -196,9 +201,9 @@ function reset() {
     birdie.animations.play('fly');
     fingers.removeAll();
     invs.removeAll();
-}
+  }
 
-function start() {
+  function start() {
     credits.renderable = false;
     birdie.body.allowGravity = true;
     // SPAWN FINGERS!
@@ -211,27 +216,27 @@ function start() {
     instText.renderable = false;
     // START!
     gameStarted = true;
-}
+  }
 
-function flap() {
+  function flap() {
     if (!gameStarted) {
-        start();
+      start();
     }
     if (!gameOver) {
-        birdie.body.velocity.y = -FLAP;
-        flapSnd.play();
+      birdie.body.velocity.y = -FLAP;
+      flapSnd.play();
     }
-}
+  }
 
-function spawnCloud() {
+  function spawnCloud() {
     cloudsTimer.stop();
 
     var cloudY = Math.random() * game.height / 2;
     var cloud = clouds.create(
-        game.width,
-        cloudY,
-        'clouds',
-        Math.floor(4 * Math.random())
+      game.width,
+      cloudY,
+      'clouds',
+      Math.floor(4 * Math.random())
     );
     var cloudScale = 2 + 2 * Math.random();
     cloud.alpha = 2 / cloudScale;
@@ -242,17 +247,17 @@ function spawnCloud() {
 
     cloudsTimer.start();
     cloudsTimer.add(4 * Math.random());
-}
+  }
 
-function o() {
+  function o() {
     return OPENING + 60 * ((score > 50 ? 50 : 50 - score) / 50);
-}
+  }
 
-function spawnFinger(fingerY, flipped) {
+  function spawnFinger(fingerY, flipped) {
     var finger = fingers.create(
-        game.width,
-        fingerY + (flipped ? -o() : o()) / 2,
-        'finger'
+      game.width,
+      fingerY + (flipped ? -o() : o()) / 2,
+      'finger'
     );
     finger.body.allowGravity = false;
 
@@ -264,9 +269,9 @@ function spawnFinger(fingerY, flipped) {
     finger.body.velocity.x = -SPEED;
 
     return finger;
-}
+  }
 
-function spawnFingers() {
+  function spawnFingers() {
     fingersTimer.stop();
 
     var fingerY = ((game.height - 16 - o() / 2) / 2) + (Math.random() > 0.5 ? -1 : 1) * Math.random() * game.height / 6;
@@ -284,16 +289,16 @@ function spawnFingers() {
 
     fingersTimer.start();
     fingersTimer.add(1 / SPAWN_RATE);
-}
+  }
 
-function addScore(_, inv) {
+  function addScore(_, inv) {
     invs.remove(inv);
     score += 1;
     scoreText.setText(score);
     scoreSnd.play();
-}
+  }
 
-function setGameOver() {
+  function setGameOver() {
     gameOver = true;
     instText.setText("TOUCH BIRDIE\nTO TRY AGAIN");
     instText.renderable = true;
@@ -305,103 +310,103 @@ function setGameOver() {
     gameOverText.renderable = true;
     // Stop all fingers
     fingers.forEachAlive(function(finger) {
-        finger.body.velocity.x = 0;
+      finger.body.velocity.x = 0;
     });
     invs.forEach(function(inv) {
-        inv.body.velocity.x = 0;
+      inv.body.velocity.x = 0;
     });
     // Stop spawning fingers
     fingersTimer.stop();
     // Make birdie reset the game
     birdie.events.onInputDown.addOnce(reset);
     hurtSnd.play();
-}
+  }
 
-function update() {
+  function update() {
     if (gameStarted) {
-        // Make birdie dive
-        var dvy = FLAP + birdie.body.velocity.y;
-        birdie.angle = (90 * dvy / FLAP) - 180;
-        if (birdie.angle < -30) {
-            birdie.angle = -30;
-        }
-        if (
-            gameOver ||
-            birdie.angle > 90 ||
+      // Make birdie dive
+      var dvy = FLAP + birdie.body.velocity.y;
+      birdie.angle = (90 * dvy / FLAP) - 180;
+      if (birdie.angle < -30) {
+        birdie.angle = -30;
+      }
+      if (
+        gameOver ||
+          birdie.angle > 90 ||
             birdie.angle < -90
-        ) {
-            birdie.angle = 90;
-            birdie.animations.stop();
-            birdie.frame = 3;
-        } else {
-            birdie.animations.play('fly');
+      ) {
+        birdie.angle = 90;
+        birdie.animations.stop();
+        birdie.frame = 3;
+      } else {
+        birdie.animations.play('fly');
+      }
+      // Birdie is DEAD!
+      if (gameOver) {
+        if (birdie.scale.x < 4) {
+          birdie.scale.setTo(
+            birdie.scale.x * 1.2,
+            birdie.scale.y * 1.2
+          );
         }
-        // Birdie is DEAD!
-        if (gameOver) {
-            if (birdie.scale.x < 4) {
-                birdie.scale.setTo(
-                    birdie.scale.x * 1.2,
-                    birdie.scale.y * 1.2
-                );
-            }
-            // Shake game over text
-            gameOverText.angle = Math.random() * 5 * Math.cos(game.time.now / 100);
-        } else {
-            // Check game over
-            game.physics.overlap(birdie, fingers, setGameOver);
-            if (!gameOver && birdie.body.bottom >= game.world.bounds.bottom) {
-                setGameOver();
-            }
-            // Add score
-            game.physics.overlap(birdie, invs, addScore);
+        // Shake game over text
+        gameOverText.angle = Math.random() * 5 * Math.cos(game.time.now / 100);
+      } else {
+        // Check game over
+        game.physics.overlap(birdie, fingers, setGameOver);
+        if (!gameOver && birdie.body.bottom >= game.world.bounds.bottom) {
+          setGameOver();
         }
-        // Remove offscreen fingers
-        fingers.forEachAlive(function(finger) {
-            if (finger.x + finger.width < game.world.bounds.left) {
-                finger.kill();
-            }
-        });
-        // Update finger timer
-        fingersTimer.update();
+        // Add score
+        game.physics.overlap(birdie, invs, addScore);
+      }
+      // Remove offscreen fingers
+      fingers.forEachAlive(function(finger) {
+        if (finger.x + finger.width < game.world.bounds.left) {
+          finger.kill();
+        }
+      });
+      // Update finger timer
+      fingersTimer.update();
     } else {
-        birdie.y = (game.world.height / 2) + 8 * Math.cos(game.time.now / 200);
+      birdie.y = (game.world.height / 2) + 8 * Math.cos(game.time.now / 200);
     }
     if (!gameStarted || gameOver) {
-        // Shake instructions text
-        instText.scale.setTo(
-            2 + 0.1 * Math.sin(game.time.now / 100),
-            2 + 0.1 * Math.cos(game.time.now / 100)
-        );
+      // Shake instructions text
+      instText.scale.setTo(
+        2 + 0.1 * Math.sin(game.time.now / 100),
+        2 + 0.1 * Math.cos(game.time.now / 100)
+      );
     }
     // Shake score text
     scoreText.scale.setTo(
-        2 + 0.1 * Math.cos(game.time.now / 100),
-        2 + 0.1 * Math.sin(game.time.now / 100)
+      2 + 0.1 * Math.cos(game.time.now / 100),
+      2 + 0.1 * Math.sin(game.time.now / 100)
     );
     // Update clouds timer
     cloudsTimer.update();
     // Remove offscreen clouds
     clouds.forEachAlive(function(cloud) {
-        if (cloud.x + cloud.width < game.world.bounds.left) {
-            cloud.kill();
-        }
+      if (cloud.x + cloud.width < game.world.bounds.left) {
+        cloud.kill();
+      }
     });
     // Scroll fence
     if (!gameOver) {
-        fence.tilePosition.x -= game.time.physicsElapsed * SPEED / 2;
+      fence.tilePosition.x -= game.time.physicsElapsed * SPEED / 2;
     }
-}
+  }
 
-function render() {
+  function render() {
     if (DEBUG) {
-        game.debug.renderSpriteBody(birdie);
-        fingers.forEachAlive(function(finger) {
-            game.debug.renderSpriteBody(finger);
-        });
-        invs.forEach(function(inv) {
-            game.debug.renderSpriteBody(inv);
-        });
+      game.debug.renderSpriteBody(birdie);
+      fingers.forEachAlive(function(finger) {
+        game.debug.renderSpriteBody(finger);
+      });
+      invs.forEach(function(inv) {
+        game.debug.renderSpriteBody(inv);
+      });
     }
-}
+  }
 
 };
