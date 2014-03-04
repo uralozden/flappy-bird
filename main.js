@@ -186,8 +186,8 @@ function reset() {
     gameOver = false;
     score = 0;
     credits.renderable = true;
-    scoreText.setText("DON'T\nTOUCH\nMY\nBIRDIE");
-    instText.setText("TOUCH TO FLAP\nBIRDIE WINGS");
+    scoreText.setText("FLAPPY\nFALCON");
+    instText.setText("TOUCH TO MAKE\nBRYAN FLY");
     gameOverText.renderable = false;
     birdie.body.allowGravity = false;
     birdie.angle = 0;
@@ -295,7 +295,7 @@ function addScore(_, inv) {
 
 function setGameOver() {
     gameOver = true;
-    instText.setText("TOUCH BIRDIE\nTO TRY AGAIN");
+    instText.setText("TOUCH FALCON\nTO TRY AGAIN");
     instText.renderable = true;
     var hiscore = window.localStorage.getItem('hiscore');
     hiscore = hiscore ? hiscore : score;
