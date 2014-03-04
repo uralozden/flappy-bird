@@ -192,7 +192,7 @@ function reset() {
     birdie.body.allowGravity = false;
     birdie.angle = 0;
     birdie.reset(game.world.width / 4, game.world.height / 2);
-    birdie.scale.setTo(2, 2);
+    birdie.scale.setTo(1.5, 1.5);
     birdie.animations.play('fly');
     fingers.removeAll();
     invs.removeAll();
@@ -332,16 +332,16 @@ function update() {
         ) {
             birdie.angle = 90;
             birdie.animations.stop();
-            birdie.frame = 3;
+            birdie.frame = 1;
         } else {
             birdie.animations.play('fly');
         }
         // Birdie is DEAD!
         if (gameOver) {
-            if (birdie.scale.x < 4) {
+            if (birdie.scale.x < 2) {
                 birdie.scale.setTo(
-                    birdie.scale.x * 1.2,
-                    birdie.scale.y * 1.2
+                    birdie.scale.x * 1.1,
+                    birdie.scale.y * 1.1
                 );
             }
             // Shake game over text
