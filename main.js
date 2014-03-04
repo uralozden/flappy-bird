@@ -18,7 +18,7 @@ WebFontConfig = {
     wf.async = 'true';
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(wf, s);
-})(); 
+})();
 
 
 function main() {
@@ -51,12 +51,12 @@ function preload() {
         image: {
             finger: ['assets/finger.png'],
             fence: ['assets/fence.png']
-        },
+        }/*,
         audio: {
             flap: ['assets/flap.wav'],
             score: ['assets/score.wav'],
             hurt: ['assets/hurt.wav']
-        }
+        }*/
     };
     Object.keys(assets).forEach(function(type) {
         Object.keys(assets[type]).forEach(function(id) {
@@ -167,9 +167,9 @@ function create() {
     gameOverText.anchor.setTo(0.5, 0.5);
     gameOverText.scale.setTo(2, 2);
     // Add sounds
-    flapSnd = game.add.audio('flap');
-    scoreSnd = game.add.audio('score');
-    hurtSnd = game.add.audio('hurt');
+    flapSnd = {play:function(){}};
+    scoreSnd = flapSnd;
+    hurtSnd = flapSnd;
     // Add controls
     game.input.onDown.add(flap);
     // Start clouds timer
