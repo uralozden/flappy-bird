@@ -18,7 +18,7 @@ WebFontConfig = {
     wf.async = 'true';
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(wf, s);
-})(); 
+})();
 
 
 function main() {
@@ -45,18 +45,18 @@ var game = new Phaser.Game(
 function preload() {
     var assets = {
         spritesheet: {
-            birdie: ['assets/birdie.png', 24, 24],
+            birdie: ['assets/bryan.png', 100, 50],
             clouds: ['assets/clouds.png', 128, 64]
         },
         image: {
             finger: ['assets/finger.png'],
             fence: ['assets/fence.png']
-        },
+        }/*,
         audio: {
             flap: ['assets/flap.wav'],
             score: ['assets/score.wav'],
             hurt: ['assets/hurt.wav']
-        }
+        }*/
     };
     Object.keys(assets).forEach(function(type) {
         Object.keys(assets[type]).forEach(function(id) {
@@ -116,7 +116,7 @@ function create() {
     // Add birdie
     birdie = game.add.sprite(0, 0, 'birdie');
     birdie.anchor.setTo(0.5, 0.5);
-    birdie.animations.add('fly', [0, 1, 2, 3], 10, true);
+    birdie.animations.add('fly', [0], 10, true);
     birdie.inputEnabled = true;
     birdie.body.collideWorldBounds = true;
     birdie.body.gravity.y = GRAVITY;
@@ -167,9 +167,9 @@ function create() {
     gameOverText.anchor.setTo(0.5, 0.5);
     gameOverText.scale.setTo(2, 2);
     // Add sounds
-    flapSnd = game.add.audio('flap');
-    scoreSnd = game.add.audio('score');
-    hurtSnd = game.add.audio('hurt');
+    flapSnd = {play:function(){}};
+    scoreSnd = flapSnd;
+    hurtSnd = flapSnd;
     // Add controls
     game.input.onDown.add(flap);
     // Start clouds timer
@@ -186,13 +186,13 @@ function reset() {
     gameOver = false;
     score = 0;
     credits.renderable = true;
-    scoreText.setText("DON'T\nTOUCH\nMY\nBIRDIE");
-    instText.setText("TOUCH TO FLAP\nBIRDIE WINGS");
+    scoreText.setText("FLAPPY\nFALCON");
+    instText.setText("TOUCH TO MAKE\nBRYAN FLY");
     gameOverText.renderable = false;
     birdie.body.allowGravity = false;
     birdie.angle = 0;
     birdie.reset(game.world.width / 4, game.world.height / 2);
-    birdie.scale.setTo(2, 2);
+    birdie.scale.setTo(1.5, 1.5);
     birdie.animations.play('fly');
     fingers.removeAll();
     invs.removeAll();
@@ -295,7 +295,7 @@ function addScore(_, inv) {
 
 function setGameOver() {
     gameOver = true;
-    instText.setText("TOUCH BIRDIE\nTO TRY AGAIN");
+    instText.setText("TOUCH FALCON\nTO TRY AGAIN");
     instText.renderable = true;
     var hiscore = window.localStorage.getItem('hiscore');
     hiscore = hiscore ? hiscore : score;
@@ -332,16 +332,16 @@ function update() {
         ) {
             birdie.angle = 90;
             birdie.animations.stop();
-            birdie.frame = 3;
+            birdie.frame = 1;
         } else {
             birdie.animations.play('fly');
         }
         // Birdie is DEAD!
         if (gameOver) {
-            if (birdie.scale.x < 4) {
+            if (birdie.scale.x < 2) {
                 birdie.scale.setTo(
-                    birdie.scale.x * 1.2,
-                    birdie.scale.y * 1.2
+                    birdie.scale.x * 1.1,
+                    birdie.scale.y * 1.1
                 );
             }
             // Shake game over text
