@@ -1,0 +1,14 @@
+
+            body {
+                background: #00ff00;
+                margin: 0;
+                padding: 0;
+            }
+            #screen {
+                margin: 0 auto;
+                max-height:500px;
+                max-width:500px;
+                position: relative;
+                overflow: hidden;
+                
+            }
